@@ -32,6 +32,15 @@ export class Card extends Component {
         }
     }
 
+    onClick() {
+        if (this.needSunPoint > SunManager.Instance.SunPoint) {
+            return;
+        }
+        // 消耗阳光
+        SunManager.Instance.subSunPoint(this.needSunPoint);
+        this.transferToCooling();
+    }
+
     private CoolingUpdate(dt: number) {
         this.cdTimer -= dt;
         this.cardMask.fillRange = -(this.cdTimer / this.cdTime);
@@ -64,6 +73,14 @@ export class Card extends Component {
         this.cardLight.active = true;
         this.cardGary.active = false;
         this.cardMask.node.active = false;
+    }
+
+    transferToCooling() {
+        this.cardState = CardState.Cooling;
+        this.cardLight.active = false;
+        this.cardGary.active = true;
+        this.cardMask.node.active = true;
+        this.cdTimer = this.cdTime;
     }
 }
 

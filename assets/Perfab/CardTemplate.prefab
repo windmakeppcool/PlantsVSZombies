@@ -454,7 +454,7 @@
       "y": 0.5
     },
     "_fillStart": 1,
-    "_fillRange": 0,
+    "_fillRange": -1,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
     "_atlas": null,
@@ -517,6 +517,16 @@
     "__prefab": {
       "__id__": 23
     },
+    "cardLight": {
+      "__id__": 8
+    },
+    "cardGary": {
+      "__id__": 2
+    },
+    "cardMask": {
+      "__id__": 17
+    },
+    "cdTime": 2,
     "_id": ""
   },
   {

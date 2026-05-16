@@ -1,45 +1,77 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, Sprite } from 'cc';
+import { SunManager } from './Manager/SunManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Card')
 export class Card extends Component {
-    private cardState: CardState = CardState.Coolding;
+    private cardState: CardState = CardState.Cooling; // 卡牌状态
 
+    @property(Node) public cardLight: Node = null!;
+    @property(Node) public cardGary: Node = null!;
+    @property(Sprite) public cardMask: Sprite = null!;
+    @property(Number) public cdTime: number = 2; //冷却时间
+    @property({type: Number, tooltip: "卡牌需要阳光"}) public needSunPoint: number = 50; // 需要阳光
+
+    private cdTimer: number = 0; //卡牌冷却计时器
+    
     start() {
-
+        this.cdTimer = this.cdTime;
     }
 
     update(deltaTime: number) {
         switch (this.cardState) {
-            case CardState.Coolding:
-                CooldingUpdate();
+            case CardState.Cooling:
+                this.CoolingUpdate(deltaTime);
                 break;
             case CardState.WaitingSun:
-                 WaitingSunUpdate();
+                 this.WaitingSunUpdate();
                 break;
             case CardState.Ready:
-                ReadyUpdate();
+                this.ReadyUpdate();
                 break;
         }
+    }
+
+    private CoolingUpdate(dt: number) {
+        this.cdTimer -= dt;
+        this.cardMask.fillRange = -(this.cdTimer / this.cdTime);
+        if (this.cdTimer <= 0) {
+            this.transferToWaitingSun();
+        }
+    }
+
+    private WaitingSunUpdate() {
+        if (this.needSunPoint <= SunManager.Instance.SunPoint) {
+            this.transferToReady();
+        }
+    }
+
+    private ReadyUpdate() {
+        if (this.needSunPoint > SunManager.Instance.SunPoint) {
+            this.transferToWaitingSun();
+        }
+    }
+
+    transferToWaitingSun() {
+        this.cardState = CardState.WaitingSun;
+        this.cardLight.active = false;
+        this.cardGary.active = true;
+        this.cardMask.node.active = false;
+    }
+
+    transferToReady() {
+        this.cardState = CardState.Ready;
+        this.cardLight.active = true;
+        this.cardGary.active = false;
+        this.cardMask.node.active = false;
     }
 }
 
 
 export enum CardState {
-    Coolding,   //冷却中
+    Cooling,   //冷却中
     WaitingSun, // 等待阳光
     Ready       // 可种植
 }
 
 
-function CooldingUpdate() {
-
-}
-
-function WaitingSunUpdate() {
-
-}
-
-function ReadyUpdate() {
-    
-}

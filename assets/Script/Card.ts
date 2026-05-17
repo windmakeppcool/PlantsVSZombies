@@ -1,10 +1,23 @@
-import { _decorator, Component, Node, Sprite } from 'cc';
+import { _decorator, Component, Enum, Node, Sprite } from 'cc';
 import { SunManager } from './Manager/SunManager';
 const { ccclass, property } = _decorator;
+
+
+export enum CardState {
+    Cooling,   //冷却中
+    WaitingSun, // 等待阳光
+    Ready       // 可种植
+}
+
+export enum PlantType {
+    SunFlower,  //太阳花
+    PeaShooter  //豌豆射手
+}
 
 @ccclass('Card')
 export class Card extends Component {
     private cardState: CardState = CardState.Cooling; // 卡牌状态
+    @property({type: Enum(PlantType)}) public plantType: PlantType;
 
     @property(Node) public cardLight: Node = null!;
     @property(Node) public cardGary: Node = null!;
@@ -85,10 +98,5 @@ export class Card extends Component {
 }
 
 
-export enum CardState {
-    Cooling,   //冷却中
-    WaitingSun, // 等待阳光
-    Ready       // 可种植
-}
 
 

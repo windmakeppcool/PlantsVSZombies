@@ -1,10 +1,10 @@
 import { _decorator, Component, Enum, Node } from 'cc';
-import { PlantType } from './Card';
+import { PlantType, PlantStatue } from './Enum';
 const { ccclass, property } = _decorator;
 
 @ccclass('Plant')
 export class Plant extends Component {
-    @property({type: Enum(PlantType)}) public plantType: PlantType;
+    @property({type: Enum(PlantType)}) public plantType: PlantType = PlantType.SunFlower;
 
     planeState: PlantStatue = PlantStatue.Disable;
     start() {
@@ -29,10 +29,5 @@ export class Plant extends Component {
     enableUpdate() {
         
     }
-}
-
-export enum PlantStatue {
-    Disable,
-    Enable
 }
 

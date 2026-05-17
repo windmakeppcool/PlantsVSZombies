@@ -3,7 +3,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('SunManager')
 export class SunManager extends Component {
-    private static _instance: SunManager = null;
+    private static _instance: SunManager = null!;
     @property(Number) private sunPoint: number = 0;
     @property(Label) private sunPointLbael: Label = null!;
 

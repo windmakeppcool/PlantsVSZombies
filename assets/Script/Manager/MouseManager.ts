@@ -41,7 +41,7 @@ export class MouseManager extends Component {
             this.currentPlant.setWorldPosition(worldPos);
     }
 
-    addPoint(plantType: PlantType): boolean{
+    addPoint(plantType: PlantType, event: EventMouse): boolean{
         if (this.currentPlant !== null)
             return false;
         let plantPrefab = this.getPlantPrefab(plantType);
@@ -49,8 +49,9 @@ export class MouseManager extends Component {
             console.log("要种植的植物预制体不存在");
             return false;
         }
-        this.currentPlant = instantiate(plantPrefab);
+        this.currentPlant = plantPrefab;
         this.currentPlant.parent = find("Canvas/Game");
+        this.followCursor(event);
         return true;
     }
 
@@ -61,6 +62,8 @@ export class MouseManager extends Component {
             let plantNode = instantiate(plantPrefab);
             if (plantNode.getComponent(Plant).plantType === plantType) {
                 return plantNode;
+            } else {
+                plantNode.destroy();
             }
         }
         return;

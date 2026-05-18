@@ -1,4 +1,4 @@
-import { _decorator, Component, Enum, Node, Sprite } from 'cc';
+import { _decorator, Component, Enum, EventMouse, Node, Sprite } from 'cc';
 import { SunManager } from './Manager/SunManager';
 import { MouseManager } from './Manager/MouseManager';
 import { CardState, PlantType } from './Enum';
@@ -35,12 +35,12 @@ export class Card extends Component {
         }
     }
 
-    onClick() {
+    onClick(event: EventMouse) {
         if (this.needSunPoint > SunManager.Instance.SunPoint) {
             return;
         }
-        
-        let isSuccess = MouseManager.Instance.addPoint(this.plantType);
+
+        let isSuccess = MouseManager.Instance.addPoint(this.plantType, event);
         if (isSuccess) {
             SunManager.Instance.subSunPoint(this.needSunPoint);
             this.transferToCooling();

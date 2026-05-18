@@ -39,10 +39,13 @@ export class Card extends Component {
         if (this.needSunPoint > SunManager.Instance.SunPoint) {
             return;
         }
-        // 消耗阳光
-        MouseManager.Instance.addPoint(this.plantType);
-        SunManager.Instance.subSunPoint(this.needSunPoint);
-        this.transferToCooling();
+        
+        let isSuccess = MouseManager.Instance.addPoint(this.plantType);
+        if (isSuccess) {
+            SunManager.Instance.subSunPoint(this.needSunPoint);
+            this.transferToCooling();
+        }
+        
     }
 
     private CoolingUpdate(dt: number) {

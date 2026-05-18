@@ -1,14 +1,15 @@
-import { _decorator, Component, instantiate, Node, Prefab } from 'cc';
+import { _decorator, Component, EventMouse, find, Input, input, instantiate, Node, Prefab, Vec3 } from 'cc';
 import { Plant } from '../Plant';
 import { PlantType } from '../Enum';
+import { Cell } from './Cell';
 const { ccclass, property } = _decorator;
 
 @ccclass('MouseManager')
 export class MouseManager extends Component {
     private static _instance: MouseManager | null = null;
-    @property([Plant]) public plantPrefabArray: Plant[] = [];
+    @property([Prefab]) public plantPrefabArray: Prefab[] = [];
     
-    private currentPlant: Plant = null!;
+    private currentPlant: Node | null = null!;
     public static get Instance(): MouseManager {
         return this._instance!;
     }
@@ -21,24 +22,48 @@ export class MouseManager extends Component {
             this.node.destroy();
             return;
         }
+
+        input.on(Input.EventType.MOUSE_MOVE, this.onMouseMove, this);
+    }
+    onCellClick(cell: Cell) {
+        if (this.currentPlant === null) return;
+        this.currentPlant.setPosition(cell.node.position);
+        this.currentPlant = null;
+    }
+    onMouseMove(event: EventMouse) {
+        this.followCursor(event);
     }
 
-    addPoint(plantType: PlantType) {
+    followCursor(event: EventMouse) {
+        let mousePos = event.getUILocation();
+        let worldPos = new Vec3(mousePos.x, mousePos.y, 0);
+        if (this.currentPlant !== null)
+            this.currentPlant.setWorldPosition(worldPos);
+    }
+
+    addPoint(plantType: PlantType): boolean{
+        if (this.currentPlant !== null)
+            return false;
         let plantPrefab = this.getPlantPrefab(plantType);
         if (plantPrefab === null) {
             console.log("要种植的植物预制体不存在");
-            return;
+            return false;
         }
         this.currentPlant = instantiate(plantPrefab);
+        this.currentPlant.parent = find("Canvas/Game");
+        return true;
     }
 
-    getPlantPrefab(plantType: PlantType): Plant | null {
-        for (const plant of this.plantPrefabArray) {
-            if (plant.plantType === plantType) {
-                return plant;
+    getPlantPrefab(plantType: PlantType): Node {
+        console.log("11111");
+        console.log(plantType);
+        for (const plantPrefab of this.plantPrefabArray) {
+            let plantNode = instantiate(plantPrefab);
+            if (plantNode.getComponent(Plant).plantType === plantType) {
+                return plantNode;
             }
         }
-        return null;
+        return;
     }
 }
 

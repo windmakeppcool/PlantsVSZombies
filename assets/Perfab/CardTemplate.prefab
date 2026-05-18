@@ -590,6 +590,7 @@
     "__prefab": {
       "__id__": 26
     },
+    "plantType": 0,
     "cardLight": {
       "__id__": 8
     },
@@ -616,6 +617,7 @@
       "__id__": 0
     },
     "fileId": "5fVCKE2cBIUrz59Rf3JW5Y",
+    "instance": null,
     "targetOverrides": null
   }
 ]

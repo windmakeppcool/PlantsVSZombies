@@ -1,4 +1,4 @@
-import { _decorator, Component, Enum, Node } from 'cc';
+import { _decorator, Animation, Component, Enum, Node } from 'cc';
 import { PlantType, PlantStatue } from './Enum';
 const { ccclass, property } = _decorator;
 
@@ -8,7 +8,7 @@ export class Plant extends Component {
 
     planeState: PlantStatue = PlantStatue.Disable;
     start() {
-
+        this.transferToDisable();
     }
 
     update(deltaTime: number) {
@@ -28,6 +28,14 @@ export class Plant extends Component {
 
     enableUpdate() {
         
+    }
+
+    transferToDisable() {
+        this.planeState = PlantStatue.Disable;
+        const anim = this.getComponent(Animation);
+        if (anim) {
+            anim.enabled = false;
+        }
     }
 }
 

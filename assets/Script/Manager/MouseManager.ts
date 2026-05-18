@@ -27,8 +27,9 @@ export class MouseManager extends Component {
     }
     onCellClick(cell: Cell) {
         if (this.currentPlant === null) return;
-        this.currentPlant.setPosition(cell.node.position);
-        this.currentPlant = null;
+        let isSuccess = cell.addPlant(this.currentPlant);
+        if (isSuccess)
+            this.currentPlant = null;
     }
     onMouseMove(event: EventMouse) {
         this.followCursor(event);

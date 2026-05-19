@@ -45,5 +45,9 @@ export class Plant extends Component {
             anim.enabled = true;
         }
     }
+
+    produceSun(num: number) {
+        console.log(`produce sun is ${num}`);
+    }
 }
 

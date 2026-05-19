@@ -7,6 +7,7 @@ export class Plant extends Component {
     @property({type: Enum(PlantType)}) public plantType: PlantType = PlantType.SunFlower;
 
     planeState: PlantStatue = PlantStatue.Disable;
+
     start() {
         this.transferToDisable();
     }
@@ -17,7 +18,7 @@ export class Plant extends Component {
                 this.disableUpdate();
                 break;
             case PlantStatue.Enable:
-                this.enableUpdate();
+                this.enableUpdate(deltaTime);
                 break;
         }
     }
@@ -26,7 +27,7 @@ export class Plant extends Component {
 
     }
 
-    enableUpdate() {
+    enableUpdate(deltaTime: number) {
         
     }
 
@@ -46,8 +47,6 @@ export class Plant extends Component {
         }
     }
 
-    produceSun(num: number) {
-        console.log(`produce sun is ${num}`);
-    }
+
 }
 

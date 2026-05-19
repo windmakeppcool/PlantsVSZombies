@@ -16,7 +16,11 @@ export class Card extends Component {
     @property({type: Number, tooltip: "卡牌需要阳光"}) public needSunPoint: number = 50; // 需要阳光
 
     private cdTimer: number = 0; //卡牌冷却计时器
-    
+    protected onLoad(): void {
+        this.cardLight.active = false;
+        this.cardGary.active = true;
+        this.cardMask.node.active = true;
+    }
     start() {
         this.cdTimer = this.cdTime;
     }

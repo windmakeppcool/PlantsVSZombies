@@ -25,12 +25,18 @@ export class MouseManager extends Component {
 
         input.on(Input.EventType.MOUSE_MOVE, this.onMouseMove, this);
     }
+
+    protected onDestroy(): void {
+        input.off(Input.EventType.MOUSE_MOVE, this.onMouseMove, this);
+    }
+
     onCellClick(cell: Cell) {
         if (this.currentPlant === null) return;
         let isSuccess = cell.addPlant(this.currentPlant);
         if (isSuccess)
             this.currentPlant = null;
     }
+    
     onMouseMove(event: EventMouse) {
         this.followCursor(event);
     }
@@ -57,11 +63,9 @@ export class MouseManager extends Component {
     }
 
     getPlantPrefab(plantType: PlantType): Node {
-        console.log("11111");
-        console.log(plantType);
         for (const plantPrefab of this.plantPrefabArray) {
             let plantNode = instantiate(plantPrefab);
-            if (plantNode.getComponent(Plant).plantType === plantType) {
+            if (plantNode.getComponent(Plant)?.plantType === plantType) {
                 return plantNode;
             } else {
                 plantNode.destroy();

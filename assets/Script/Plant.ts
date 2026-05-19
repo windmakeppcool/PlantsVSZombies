@@ -37,5 +37,13 @@ export class Plant extends Component {
             anim.enabled = false;
         }
     }
+
+    transferToEnable() {
+        this.planeState = PlantStatue.Enable;
+        const anim = this.getComponent(Animation);
+        if (anim) {
+            anim.enabled = true;
+        }
+    }
 }
 

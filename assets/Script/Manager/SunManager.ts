@@ -5,7 +5,7 @@ const { ccclass, property } = _decorator;
 export class SunManager extends Component {
     private static _instance: SunManager = null!;
     @property(Number) private sunPoint: number = 0;
-    @property(Label) private sunPointLbael: Label = null!;
+    @property(Label) public sunPointLbael: Label = null!;
 
     public static get Instance(): SunManager {
         return this._instance;
@@ -35,11 +35,15 @@ export class SunManager extends Component {
 
     public subSunPoint(point: number) {
         this.sunPoint -= point;
-        if (this.sunPoint <=0 ) {
+        if (this.sunPoint <= 0) {
             this.sunPoint = 0;
         }
         this.updateSunPointLabel();
     }
 
+    public addSunPoint(point: number) {
+        this.sunPoint += point;
+        this.updateSunPointLabel();
+    }   
 }
 
